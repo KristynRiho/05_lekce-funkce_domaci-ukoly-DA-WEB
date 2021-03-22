@@ -1,5 +1,12 @@
 'use strict';
 
+const cisilko = 10;
+const textik = '1';
+console.log(cisilko + textik); // 101
+console.log(textik + cisilko); // 110
+console.log(textik + 2); // 12
+
+
 // výpočet obsahu elipsy:*******************************
 
 const ellipseArea = (width, height) => {
@@ -47,10 +54,18 @@ const parseDate = (datum) => {
     month: datum.slice(3, 5),
     year: datum.slice(-4),
   };
+
+  if (rozlozeneDatum.day[0] === '0'){
+    rozlozeneDatum.day = rozlozeneDatum.day.slice(1);
+  }
+  if (rozlozeneDatum.month[0] === '0'){
+    rozlozeneDatum.month = rozlozeneDatum.month.slice(1);
+  }
+ 
   return rozlozeneDatum.valueOf();
 };
 
-console.log(parseDate('12.06.2023')); // co nuly??
+console.log(parseDate('01.06.2023')); // co nuly??
 
 //Formátování data: *******************************************
 const formatDate = (objektDatumu) => {
@@ -58,14 +73,9 @@ const formatDate = (objektDatumu) => {
   day = objektDatumu.day;
   month = objektDatumu.month;
   year = objektDatumu.year;
-  //jak pořešit nuly,aby to fungovalo?
-  if (day.length < 2) {
-    day = day.padStart(2, '0');
-    console.log(day.length);
-  }
-  if (month.length < 2) {
-    month = month.padStart(2, '0');
-  }
+  
+  day = String(day).padStart(2, '0');
+  month = String(month).padStart(2, '0');
 
   return `${day}.${month}.${year}`;
 };
@@ -75,18 +85,18 @@ console.log(formatDate({ day: 6, month: 4, year: 2021 }));
 //Python zaokrouhlování: *******************************************
 
 const zaokrouhli = (desetinneCislo) => {
+  
   desetinneCislo = String(desetinneCislo);
   const indexDesetinneCarky = desetinneCislo.indexOf('.');
   const desetinnaCast = desetinneCislo.slice(indexDesetinneCarky + 1);
-  const cisloPredDesetinnouCarkou = Math.trunc(desetinneCislo);
+  let cisloPredDesetinnouCarkou = Math.trunc(desetinneCislo);
 
   let vysledek;
   if (desetinnaCast[0] < 5) {
     vysledek = cisloPredDesetinnouCarkou;
   } else if (desetinnaCast[0] > 5) {
     vysledek = cisloPredDesetinnouCarkou + 1;
-  } else if (desetinnaCast[0] === 5) {
-    // proč mi tahle část nefunguje??
+  } else  {
     if (cisloPredDesetinnouCarkou % 2 === 0) {
       vysledek = cisloPredDesetinnouCarkou;
     } else {
@@ -96,7 +106,7 @@ const zaokrouhli = (desetinneCislo) => {
   return vysledek;
 };
 
-console.log(zaokrouhli(12.75));
+console.log(zaokrouhli(3.75));
 
 //maximum ze tří čísel: *******************************************
 const max3 = (num1, num2, num3) => {
